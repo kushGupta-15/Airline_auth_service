@@ -12,7 +12,7 @@ const create = async (req, res) => {
       err: {},
     });
   } catch (error) {
-    console.log("Error in create in user controller");
+    console.log("Error in create in user controller", error);
     return res.status(500).json({
       message: "Something went wrong",
       data: {},
@@ -22,7 +22,6 @@ const create = async (req, res) => {
   }
 };
 
-// Error in signIn controller need to fix
 const signIn = async (req, res) => {
     try {
         const response = await userService.signIn(
@@ -36,7 +35,7 @@ const signIn = async (req, res) => {
             err: null
         })
     } catch (error) {
-        console.log("Error in signIn in user controller");
+        console.log("Error in signIn in user controller", error);
         return res.status(500).json({
             message: "Something went wrong",
             data:{},

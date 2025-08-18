@@ -13,7 +13,7 @@ class UserService {
       const user = await this.userRepository.create(data);
       return user;
     } catch (error) {
-      console.log("Error in create in user service");
+      console.log("Error in create in user service", error);
       throw error;
     }
   }
@@ -30,7 +30,7 @@ class UserService {
         return newJWT;
         
       } catch (error) {
-        console.log("Error in signIn in user service");
+        console.log("Error in signIn in user service", error);
         throw error;
       }
     }
@@ -40,7 +40,7 @@ class UserService {
       const result = jwt.sign(user, JWT_KEY, { expiresIn: "1h" });
       return result;
     } catch (error) {
-      console.log("Error in create token in token creation");
+      console.log("Error in create token in token creation", error);
       throw error;
     }
   }
@@ -50,7 +50,7 @@ class UserService {
       const response = jwt.verify(token, JWT_KEY);
       return response;
     } catch (error) {
-      console.log("Error in verifying token in user service");
+      console.log("Error in verifying token in user service", error);
       throw error;
     }
   }
@@ -59,7 +59,7 @@ class UserService {
     try {
       return bcrypt.compareSync(userInputPlainPassword, encryptedPassword);
     } catch (error) {
-      console.log("Error in checking password in user service");
+      console.log("Error in checking password in user service", error);
       throw error;
     }
   }
@@ -71,12 +71,12 @@ class UserService {
         throw {error: 'Invalid token'}
       }
 
-      const user = this.userRepository.getById(response.id);
+      const user = await this.userRepository.getById(response.id);
       if(!user) {
         throw {error: 'No user with the corresponding token exists'}
       }
     } catch (error) {
-      console.log("Error in checking authenticated user in user service");
+      console.log("Error in checking authenticated user in user service", error);
       throw error;
     }
   } 

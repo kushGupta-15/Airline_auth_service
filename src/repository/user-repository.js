@@ -7,7 +7,7 @@ class UserRepository {
             const user = await User.create(data);
             return user;
         } catch (error) {
-            console.log("Error in create in user repository");
+            console.log("Error in create in user repository", error);
             throw error;
         }
     }
@@ -21,7 +21,7 @@ class UserRepository {
             });
             return true;
         } catch (error) {
-            console.log("Error in destroy in user repository");
+            console.log("Error in destroy in user repository", error);
             throw error;
         }
     }
@@ -33,7 +33,7 @@ class UserRepository {
             });
             return user;
         } catch (error) {
-            console.log("Error in getById in user repository");
+            console.log("Error in getById in user repository", error);
             throw error;
         }
     }
@@ -47,7 +47,7 @@ class UserRepository {
             });
             return user;
         } catch (error) {
-            console.log("Error in get by email in user repository");
+            console.log("Error in get by email in user repository", error);
             throw error;
         }
     }
