@@ -63,6 +63,23 @@ class UserService {
       throw error;
     }
   }
+
+  async isAuthenticated(token) {
+    try {
+      const response = this.verifyToken(token);
+      if(!response) {
+        throw {error: 'Invalid token'}
+      }
+
+      const user = this.userRepository.getById(response.id);
+      if(!user) {
+        throw {error: 'No user with the corresponding token exists'}
+      }
+    } catch (error) {
+      console.log("Error in checking authenticated user in user service");
+      throw error;
+    }
+  } 
 }
 
 module.exports = UserService;
