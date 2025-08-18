@@ -2,7 +2,7 @@ const express = require('express');
 const { PORT } = require("./config/serverConfig.js");
 const apiRoutes = require('./routes/index.js');
 // const db = require('./models/index');
-// const {User, Role} = require('./models/index.js');
+const {User, Role} = require('./models/index.js');
 const app = express();
 
 const prepareAndStartServer = () => {
@@ -17,7 +17,7 @@ const prepareAndStartServer = () => {
         // }
 
         // const u1 = await User.findByPk(2);
-        // const r1 = await Role.findByPk(3);
+        // const r1 = await Role.findByPk(1);
         // u1.addRole(r1);
     });
 }

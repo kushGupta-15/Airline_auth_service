@@ -80,6 +80,16 @@ class UserService {
       throw error;
     }
   } 
+
+  async isAdmin(userId) {
+    try {
+      const response = await this.userRepository.isAdmin(userId);
+      return response;
+    } catch (error) {
+      console.log("Error in isAdmin in user service", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = UserService;
