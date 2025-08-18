@@ -2,6 +2,7 @@ const UserRepository = require("../repository/user-repository.js");
 const { JWT_KEY } = require("../config/serverConfig.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const AppErrors = require("../utils/error-handler.js");
 
 class UserService {
   constructor() {
@@ -13,8 +14,11 @@ class UserService {
       const user = await this.userRepository.create(data);
       return user;
     } catch (error) {
+      if(error.name == 'SequelizeValidationError') {
+        throw error;
+      }
       console.log("Error in create in user service", error);
-      throw error;
+      throw new AppErrors('ServerError', 'Something went wrong in service', 'Logical issue found', 500);
     }
   }
 
@@ -30,6 +34,9 @@ class UserService {
         return newJWT;
         
       } catch (error) {
+        if(error.name == 'AttributeNotFound') {
+          throw error;
+        }
         console.log("Error in signIn in user service", error);
         throw error;
       }
