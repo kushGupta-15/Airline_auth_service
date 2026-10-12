@@ -74,7 +74,8 @@ const isAuthenticated = async (req, res) => {
 
 const isAdmin = async (req, res) => {
   try {
-    const response = await userService.isAdmin(req.body.id);
+    const userId = (req.body && req.body.id !== undefined) ? req.body.id : req.query?.id;
+    const response = await userService.isAdmin(userId);
     return res.status(200).json({
       message: "Successfully checked if user is admin or not",
       data: response,

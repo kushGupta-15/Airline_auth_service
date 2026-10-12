@@ -68,14 +68,16 @@ class UserRepository {
     async isAdmin(userId) {
         try {
             const user = await User.findByPk(userId);
+            if (!user) return false;
             const adminRole = await Role.findOne({
                 where: {
-                    name: 'admin'
+                    name: ['ADMIN', 'admin']
                 }
             });
-            return user.hasRole(adminRole);
+            if (!adminRole) return false;
+            return await user.hasRole(adminRole);
         } catch (error) {
-            console.log("Error in isAdmin in user repository",error);
+            console.log("Error in isAdmin in user repository", error);
             throw error;
         }
     }

@@ -23,7 +23,8 @@ const validateUserAuth = (req, res, next) => {
 };
 
 const validateIsAdminRequest = (req, res, next) => {
-    const result = isAdminSchema.safeParse(req.body);
+    const payload = (req.body && req.body.id !== undefined) ? req.body : req.query;
+    const result = isAdminSchema.safeParse(payload);
     if (!result.success) {
         return res.status(400).json({
             success: false,
