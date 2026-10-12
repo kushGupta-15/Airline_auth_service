@@ -19,11 +19,11 @@ const create = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in create in user controller", error);
-    return res.status(error.statusCode).json({
-      message: error.message,
+    return res.status(error.statusCode || 400).json({
+      message: error.message || "Failed to create user",
       data: {},
       success: false,
-      err: error.explanation,
+      err: error.explanation || error.error || error,
     });
   }
 };
@@ -42,11 +42,11 @@ const signIn = async (req, res) => {
         })
     } catch (error) {
         console.log("Error in signIn in user controller", error);
-        return res.status(error.statusCode).json({
-            message: error.message,
+        return res.status(error.statusCode || 401).json({
+            message: error.message || error.error || "Authentication failed",
             data:{},
             success: false,
-            err: error.explanation
+            err: error.explanation || error.error || "Invalid credentials"
         });
     }
 }
