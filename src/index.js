@@ -67,13 +67,24 @@ const prepareAndStartServer = () => {
 
     app.listen(PORT, async () => {
         console.log(`Server is running on port ${PORT}`);
-        // if(process.env.DB_SYNC) {
-        //     db.sequelize.sync({alter: true});
-        // }
-
-        // const u1 = await User.findByPk(2);
-        // const r1 = await Role.findByPk(1);
-        // u1.addRole(r1);
+        if (process.env.DB_SYNC === 'true') {
+            try {
+                await db.sequelize.sync({ alter: true });
+                const [adminRole] = await Role.findOrCreate({ where: { name: 'ADMIN' }, defaults: { name: 'ADMIN' } });
+                await Role.findOrCreate({ where: { name: 'CUSTOMER' }, defaults: { name: 'CUSTOMER' } });
+                const existingAdmin = await User.findOne({ where: { email: 'kushg1517@gmail.com' } });
+                if (!existingAdmin) {
+                    const newAdmin = await User.create({
+                        email: 'kushg1517@gmail.com',
+                        password: 'Admin@SkyFlow2026!'
+                    });
+                    await newAdmin.addRole(adminRole);
+                    console.log('[BOOTSTRAP] Initialized default admin account');
+                }
+            } catch (syncErr) {
+                console.error('[DB_SYNC ERROR]', syncErr.message);
+            }
+        }
     });
 }
 
