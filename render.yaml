@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: skyflow-auth-service
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node src/index.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: JWT_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
