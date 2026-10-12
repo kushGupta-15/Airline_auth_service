@@ -82,6 +82,7 @@ class UserService {
       if(!user) {
         throw {error: 'No user with the corresponding token exists'}
       }
+      return user.id;
     } catch (error) {
       console.log("Error in checking authenticated user in user service", error);
       throw error;

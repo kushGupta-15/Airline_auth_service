@@ -5,9 +5,15 @@ const userService = new UserService();
 const create = async (req, res) => {
   try {
     const response = await userService.create(req.body);
+    const sanitizedUser = {
+      id: response.id,
+      email: response.email,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt
+    };
     return res.status(201).json({
       message: "User created successfully",
-      data: response,
+      data: sanitizedUser,
       success: true,
       err: {},
     });
