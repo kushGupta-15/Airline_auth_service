@@ -1,7 +1,7 @@
 # Airline Authentication Service
 
 ## Overview
-The **Airline Authentication Service** is dedicated to user identity management, credential security, role-based authorization, and token issuance for the entire Airline Reservation platform. It provides token generation (JWT), secure password hashing using `bcrypt`, role mapping (Admin vs. Customer), and centralized authentication verification consumed by the **API Gateway** before permitting access to protected operations like flight bookings.
+The **Airline Authentication Service** is dedicated to user identity management, credential security, role-based authorization, and token issuance for the entire Airline Reservation platform. It provides token generation (JWT), secure password hashing using `bcrypt` with dynamic 10-round salting, role mapping (Admin vs. Customer), and centralized authentication verification consumed by the **API Gateway** before permitting access to protected operations like flight bookings.
 
 ---
 
