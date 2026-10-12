@@ -1,28 +1,41 @@
+const { z } = require('zod');
+
+const userAuthSchema = z.object({
+    email: z.string({ required_error: 'Email is required' }).email('Invalid email address format'),
+    password: z.string({ required_error: 'Password is required' }).min(6, 'Password must be at least 6 characters long')
+});
+
+const isAdminSchema = z.object({
+    id: z.union([z.number(), z.string().regex(/^\d+$/)], { required_error: 'User id is required' })
+});
+
 const validateUserAuth = (req, res, next) => {
-    if(!req.body.email || !req.body.password) {
-        res.status(400).json({
-          success: false,
-          data: {},
-          message: "Something went wrong",
-          err: 'Email or passoword missing in the request'
+    const result = userAuthSchema.safeParse(req.body);
+    if (!result.success) {
+        return res.status(400).json({
+            success: false,
+            data: {},
+            message: "Validation failed",
+            err: (result.error.issues || []).map(e => e.message).join(', ')
         });
     }
     next();
-}
+};
 
 const validateIsAdminRequest = (req, res, next) => {
-    if(!req.body.id) {
+    const result = isAdminSchema.safeParse(req.body);
+    if (!result.success) {
         return res.status(400).json({
-          success: false,
-          data: {},
-          message: "Something went wrong",
-          err: 'User id missing in the request'
+            success: false,
+            data: {},
+            message: "Validation failed",
+            err: (result.error.issues || []).map(e => e.message).join(', ')
         });
     }
     next();
-}
+};
 
 module.exports = {
     validateUserAuth,
     validateIsAdminRequest
-}
+};
